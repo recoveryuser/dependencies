@@ -1,0 +1,88 @@
+{
+    "info": {
+      "_postman_id": "5ee3ed5f-4f16-4de0-bff9-6ec2445db447",
+      "name": "FastAPI Test",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Get Plot",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "body": {},
+          "url": {
+            "raw": "http://localhost:8084/query?question=plot",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8084",
+            "path": [
+              "query"
+            ],
+            "query": [
+              {
+                "key": "question",
+                "value": "plot"
+              }
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get DataFrame",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "body": {},
+          "url": {
+            "raw": "http://localhost:8084/query?question=dataframe",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8084",
+            "path": [
+              "query"
+            ],
+            "query": [
+              {
+                "key": "question",
+                "value": "dataframe"
+              }
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get String",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "body": {},
+          "url": {
+            "raw": "http://localhost:8084/query?question=some%20text",
+            "protocol": "http",
+            "host": [
+              "localhost"
+            ],
+            "port": "8084",
+            "path": [
+              "query"
+            ],
+            "query": [
+              {
+                "key": "question",
+                "value": "some text"
+              }
+            ]
+          }
+        },
+        "response": []
+      }
+    ]
+  }
+  
