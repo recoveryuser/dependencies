@@ -1,0 +1,63 @@
+Here's an updated code that can handle various file formats (docx, PDF, text, and CSV) and extract the text for summarization:
+```
+import os
+import docx
+import pdfplumber
+import pandas as pd
+from langchain.llms import OpenAI
+from langchain.llms.base import LLM
+
+# Initialize the LLM model
+llm = OpenAI(model_name="text-davinci-003")
+
+# Define the chunk size (adjust this based on the token limit)
+chunk_size = 2000
+
+# Function to extract text from various file formats
+def extract_text(file_path):
+    if file_path.endswith('.docx'):
+        doc = docx.Document(file_path)
+        text = ' '.join([para.text for para in doc.paragraphs])
+    elif file_path.endswith('.pdf'):
+        with pdfplumber.PDF(open(file_path, 'rb')) as pdf:
+            text = ' '.join([page.extract_text() for page in pdf.pages])
+    elif file_path.endswith(('.txt', '.csv')):
+        if file_path.endswith('.csv'):
+            df = pd.read_csv(file_path)
+            text = ' '.join([str(df.columns.tolist())] + [str(df.iloc[i].tolist()) for i in range(len(df))])
+        else:
+            with open(file_path, 'r') as file:
+                text = file.read()
+    else:
+        raise ValueError("Unsupported file format")
+    return text
+
+# Input file path (update this with your file path)
+file_path = "path/to/your/file.docx"  # or .pdf, .txt, or .csv
+
+# Extract text from the file
+document = extract_text(file_path)
+
+# Split the document into chunks
+chunks = [document[i:i + chunk_size] for i in range(0, len(document), chunk_size)]
+
+# Initialize the summary
+summary = ""
+
+# Summarize each chunk and combine the results
+for chunk in chunks:
+    # Summarize the chunk
+    chunk_summary = LLM.summarize(llm, chunk, num_sentences=5)
+    # Add the chunk summary to the overall summary
+    summary += chunk_summary + "\n\n"
+
+# Print the final summary
+print(summary)
+```
+This updated code includes:
+
+1. A new function `extract_text` that extracts text from various file formats (docx, PDF, text, and CSV).
+2. Support for CSV files by converting the data into a string format.
+3. Error handling for unsupported file formats.
+
+Remember to update the `file_path` variable with the path to your file. The code will extract the text, split it into chunks, summarize each chunk, and combine the summaries into a final output.
